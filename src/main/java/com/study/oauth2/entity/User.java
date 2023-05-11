@@ -22,28 +22,15 @@ public class User {
 	
 	private List<Authority> authorities;
 	
+
 	public PrincipalUser toPrincipal() {
 		return PrincipalUser.builder()
 				.userId(userId)
 				.email(email)
 				.password(password)
-				.authorities(authorities)
+				.authority(authorities)
 				.build();
 	}
+
+	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

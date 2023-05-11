@@ -5,6 +5,7 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -16,23 +17,39 @@ import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtTokenProvider {
+
 	private final Key key;
 	
 	public JwtTokenProvider(@Value("${jwt.secret}") String secretKey) {
 		key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey));
 	}
 	
+	public String generateAccessToken(Authentication authentication) {
+		String email = null;
+		
+		if(authentication.getPrincipal().getClass() == UserDetails.class) {
+			// PrincipalUser
+			
+		}else {
+			// OAuth2User
+			
+		}
+		
+		return Jwts.builder()
+				.setSubject("AccessToken")
+				.claim("email", authentication)
+	}
+	
 	public String generateOAuth2RegisterToken(Authentication authentication) {
 		
-		Date tokenExpiresDate = new Date(new Date().getTime() + (1000 * 60 * 10));
-		
-		OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+		Date tokenExpireDate = new Date(new Date().getTime() + (1000 * 60 * 10));
+		OAuth2User oAuth2User = (OAuth2User)authentication.getPrincipal();
 		String email = oAuth2User.getAttribute("email");
-		
+				
 		return Jwts.builder()
 				.setSubject("OAuth2Register")
 				.claim("email", email)
-				.setExpiration(tokenExpiresDate)
+				.setExpiration(tokenExpireDate)
 				.signWith(key, SignatureAlgorithm.HS256)
 				.compact();
 	}
@@ -43,9 +60,9 @@ public class JwtTokenProvider {
 				.setSigningKey(key)
 				.build()
 				.parseClaimsJws(token);
-			
 			return true;
-		} catch (Exception e) {
+			
+		}catch(Exception e){
 			
 		}
 		return false;
