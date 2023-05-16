@@ -22,16 +22,17 @@ public class OAuth2Attribute {
             case "google":
                 return ofGoogle(provider, attributes);
             case "kakao":
-                return ofKakao(provider,attributes);
+                return ofKakao(provider, attributes);
             case "naver":
-                return ofNaver(provider,attributes);
+                return ofNaver(provider, attributes);
             default:
                 throw new RuntimeException();
         }
     }
 
-    private static OAuth2Attribute ofGoogle(String provider,Map<String, Object> attributes) {
-        return OAuth2Attribute.builder()
+    private static OAuth2Attribute ofGoogle(String provider, Map<String, Object> attributes) {
+        
+    	return OAuth2Attribute.builder()
                 .name((String) attributes.get("name"))
                 .email((String) attributes.get("email"))
                 .provider(provider)
@@ -39,8 +40,7 @@ public class OAuth2Attribute {
                 .build();
     }
 
-    private static OAuth2Attribute ofKakao(String provider,Map<String, Object> attributes) {
-    	
+    private static OAuth2Attribute ofKakao(String provider, Map<String, Object> attributes) {
         Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
         Map<String, Object> kakaoProfile = (Map<String, Object>) kakaoAccount.get("profile");
 
@@ -52,7 +52,7 @@ public class OAuth2Attribute {
                 .build();
     }
 
-    private static OAuth2Attribute ofNaver(String provider,Map<String, Object> attributes) {
+    private static OAuth2Attribute ofNaver(String provider, Map<String, Object> attributes) {
         Map<String, Object> response = (Map<String, Object>) attributes.get("response");
 
         return OAuth2Attribute.builder()
@@ -67,7 +67,7 @@ public class OAuth2Attribute {
         Map<String, Object> map = new HashMap<>();
         map.put("name", name);
         map.put("email", email);
-        map.put("provider", provider);
+        map.put("provider", provider);        
 
         return map;
     }

@@ -15,5 +15,4 @@ public class Authority {
 	private int roleId;
 	
 	private Role role;
-	
 }

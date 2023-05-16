@@ -8,7 +8,6 @@ import lombok.Data;
 
 @Data
 public class OAuth2RegisterReqDto {
-
 	private String email;
 	private String name;
 	private String password;
